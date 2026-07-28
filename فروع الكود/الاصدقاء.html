@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فيسبوك - الأصدقاء (Modern UI)</title>
+    <!-- Bootstrap 5 CSS RTL -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+    <!-- Font Awesome (Icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* التنسيقات الأساسية المتناسقة مع الـ Index */
+        body { background-color: #f0f2f5; font-family: Segoe UI, Helvetica, Arial, sans-serif; overflow-x: hidden; padding-top: 75px; /* ارتفاع الناف بار */ }
+        
+        /* ✅ تنسيق الـ Navbar المودرن (نفس الـ Index) */
+        .fb-navbar { position: fixed; top: 0; width: 100%; z-index: 1000; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.08); height: 75px; }
+        .nav-link-main { display: flex; flex-direction: column; align-items: center; justify-content: center; color: #65676b; border-radius: 10px; transition: all 0.2s; width: 100px; height: 100%; padding: 0 !important; position: relative; text-decoration: none; }
+        .nav-link-main i { font-size: 1.4rem; margin-bottom: 2px; }
+        .nav-link-text { font-size: 0.75rem; font-weight: 600; margin-top: 1px; }
+        .nav-link-main:hover { background-color: #f2f2f2; color: #1877f2; }
+        
+        /* ✅ تفعيل حالة الـ Active على أيقونة الأصدقاء */
+        .nav-link-main.active { color: #1877f2; }
+        .nav-link-main.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background-color: #1877f2; }
+        
+        .search-input { background-color: #f0f2f5; border-radius: 50px; border: none; }
+
+        /* تنسيقات صفحة الأصدقاء الخاصة */
+        .friends-sidebar { position: sticky; top: 90px; height: calc(100vh - 90px); overflow-y: auto; scrollbar-width: none; }
+        .friends-sidebar::-webkit-scrollbar { display: none; }
+        
+        /* كروت الأصدقاء والاقتراحات */
+        .friend-card { transition: transform 0.2s, box-shadow 0.2s; border: none; border-radius: 15px; overflow: hidden; background-color: #fff; }
+        .friend-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
+        .friend-img-top { height: 200px; object-fit: cover; }
+        
+        /* تنسيق تبويبات الملاحة */
+        .nav-pills .nav-link { color: #65676b; font-weight: 600; border-radius: 50px; padding: 10px 20px; transition: all 0.3s; }
+        .nav-pills .nav-link:hover { background-color: #e4e6eb; }
+        .nav-pills .nav-link.active { background-color: #e7f3ff; color: #1877f2; }
+
+        /* الأزرار الديناميكية */
+        .btn-action { border-radius: 8px; font-weight: 600; padding: 8px 12px; font-size: 0.9rem; }
+        
+        /* حالة الهيكل العظمي للشحن (اختياري للجمال) */
+        .skeleton-loader { background: linear-gradient(90deg, #f0f2f5 25%, #e4e6eb 50%, #f0f2f5 75%); background-size: 200% 100%; animation: loading 1.5s infinite; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    </style>
+</head>
+<body>
+
+    <!-- ✅ 1. Navigation Bar (نفس الـ Index، النشط هو الأصدقاء) -->
+    <nav class="navbar navbar-expand-lg fb-navbar p-0 border-bottom">
+        <div class="container-fluid px-3 h-100">
+            <!-- Right Logo & Search -->
+            <div class="d-flex align-items-center" style="width: 280px;">
+                <a class="navbar-brand text-primary fw-bold fs-1" href="index.html" style="letter-spacing: -2px;">facebook</a>
+                <div class="position-relative ms-2 d-none d-md-block">
+                    <i class="fas fa-search position-absolute text-muted" style="right: 12px; top: 50%; transform: translateY(-50%); z-index: 5;"></i>
+                    <input type="text" class="form-control search-input" placeholder="بحث في الأصدقاء" style="padding-right: 35px; width: 200px; height: 36px;">
+                </div>
+            </div>
+
+            <!-- Center Icons (تفعيل الـ Active على الأصدقاء) -->
+            <div class="collapse navbar-collapse justify-content-center h-100">
+                <ul class="navbar-nav gap-1 h-100 d-flex flex-row">
+                    <li class="nav-item h-100">
+                        <a class="nav-link nav-link-main" href="../index.html">
+                            <i class="fas fa-home"></i><span class="nav-link-text">الرئيسية</span>
+                        </a>
+                    </li>
+                    <li class="nav-item h-100">
+                        <a class="nav-link nav-link-main active" href="./الاصدقاء.html">
+                            <i class="fas fa-user-friends"></i><span class="nav-link-text">الأصدقاء</span>
+                        </a>
+                    </li>
+                    <li class="nav-item h-100">
+                        <a class="nav-link nav-link-main" href="./watch.html">
+                            <i class="fas fa-tv"></i><span class="nav-link-text">Watch</span>
+                        </a>
+                    </li>
+                    <li class="nav-item h-100">
+                        <a class="nav-link nav-link-main" href="./التسوق.html">
+                            <i class="fas fa-store"></i><span class="nav-link-text">التسوق</span>
+                        </a>
+                    </li>
+                    <li class="nav-item h-100">
+                        <a class="nav-link nav-link-main" href="./المزيد.html">
+                            <i class="fas fa-users"></i><span class="nav-link-text">المجموعات</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Left Profile & Actions -->
+            <div class="d-flex align-items-center justify-content-end gap-2" style="width: 280px;">
+                <button class="btn btn-light rounded-circle bg-gray-200" title="المراسلة"><i class="fab fa-facebook-messenger"></i></button>
+                <button class="btn btn-light rounded-circle bg-gray-200 position-relative" title="الإشعارات"><i class="fas fa-bell"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.6rem;">3</span></button>
+                <a href="#" class="ms-1" title="الملف الشخصي">
+                    <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" class="rounded-circle border" width="38" height="38">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ✅ 2. Main Content Section -->
+    <div class="container-fluid feed-area">
+        <div class="row">
+            
+            <!-- ⬅️ Sidebar Right (القائمة الجانبية - ثابتة) -->
+            <div class="col-lg-3 d-none d-lg-block friends-sidebar pt-4 pr-3 border-end">
+                <h3 class="fw-bold mb-4 px-2">الأصدقاء</h3>
+                <ul class="nav flex-column nav-pills gap-2 px-2" id="friendsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link w-100 text-start active" id="all-friends-tab" data-bs-toggle="pill" data-bs-target="#all-friends" type="button" role="tab"><i class="fas fa-user-friends me-2"></i>كل الأصدقاء</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link w-100 text-start position-relative" id="requests-tab" data-bs-toggle="pill" data-bs-target="#requests" type="button" role="tab">
+                            <i class="fas fa-user-plus me-2"></i>طلبات الصداقة
+                            <span class="position-absolute top-50 translate-middle-y badge rounded-pill bg-danger" style="left: 15px;">5</span>
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link w-100 text-start" id="suggestions-tab" data-bs-toggle="pill" data-bs-target="#suggestions" type="button" role="tab"><i class="fas fa-lightbulb me-2"></i>الاقتراحات</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start" type="button"><i class="fas fa-gift me-2"></i>أعياد الميلاد</button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link w-100 text-start" type="button"><i class="fas fa-list me-2"></i>قوائم مخصصة</button>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 🟢 Center Content (منطقة التبويبات - سكرول لتحت كبيييير) -->
+            <div class="col-lg-9 col-md-12 pt-4 px-lg-5 pb-5">
+                <div class="tab-content" id="friendsTabsContent">
+                    
+                    <!-- ✅ تبويب: كل الأصدقاء (كبير ومليء بالمحتوى) ✅ -->
+                    <div class="tab-pane fade show active" id="all-friends" role="tabpanel">
+                        <div class="d-flex justify-content-between align-items-center mb-4 px-2">
+                            <h4 class="fw-bold mb-0">كل الأصدقاء (150)</h4>
+                            <div class="d-flex gap-2">
+                                <input type="text" class="form-control form-control-sm search-input" placeholder="بحث عن صديق..." style="width: 200px;">
+                                <button class="btn btn-light btn-sm rounded-pill"><i class="fas fa-ellipsis-h"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- شبكة الأصدقاء (Grid System) -->
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                            <!-- نموذج صديق 1 (تفاعلي الديناميكية) -->
+                            <div class="col friend-item" id="friend-1">
+                                <div class="card friend-card shadow-sm h-100">
+                                    <img src="https://randomuser.me/api/portraits/men/32.jpg" class="card-img-top friend-img-top" alt="أحمد">
+                                    <div class="card-body p-3 d-flex flex-column">
+                                        <h6 class="card-title fw-bold mb-1">أحمد محمود</h6>
+                                        <p class="card-text text-muted small mb-3">15 صديق مشترك</p>
+                                        <div class="mt-auto d-flex gap-2">
+                                            <button class="btn btn-primary btn-action flex-grow-1"><i class="fab fa-facebook-messenger me-1"></i>مراسلة</button>
+                                            <button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-1')" title="حذف الصديق"><i class="fas fa-user-times"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- نموذج صديق 2 -->
+                            <div class="col friend-item" id="friend-2">
+                                <div class="card friend-card shadow-sm h-100">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" class="card-img-top friend-img-top" alt="ياسمين">
+                                    <div class="card-body p-3 d-flex flex-column">
+                                        <h6 class="card-title fw-bold mb-1">ياسمين علي</h6>
+                                        <p class="card-text text-muted small mb-3">5 أصدقاء مشتركين</p>
+                                        <div class="mt-auto d-flex gap-2">
+                                            <button class="btn btn-primary btn-action flex-grow-1"><i class="fab fa-facebook-messenger me-1"></i>مراسلة</button>
+                                            <button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-2')" title="حذف الصديق"><i class="fas fa-user-times"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- كرر العناصر لتكبير الصفحة لتحت -->
+                            <div class="col friend-item" id="friend-3"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/65.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">كريم محمود</h6><p class="text-muted small mb-3">8 مشتركين</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-3')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <div class="col friend-item" id="friend-4"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/68.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">سارة سمير</h6><p class="text-muted small mb-3">20 مشترك</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-4')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <div class="col friend-item" id="friend-5"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/75.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">أحمد حسن</h6><p class="text-muted small mb-3">3 مشتركين</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-5')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <div class="col friend-item" id="friend-6"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/65.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">هناء منصور</h6><p class="text-muted small mb-3">12 مشترك</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-6')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <!-- أضف المزيد لجعلها كبيرة جداً لتحت -->
+                            <div class="col friend-item" id="friend-7"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/80.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">سامح فريد</h6><p class="text-muted small mb-3">7 مشتركين</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-7')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <div class="col friend-item" id="friend-8"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/72.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">نورا السيد</h6><p class="text-muted small mb-3">9 مشتركين</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-8')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <div class="col friend-item" id="friend-9"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/90.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">هاني عادل</h6><p class="text-muted small mb-3">2 مشترك</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-9')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                            <div class="col friend-item" id="friend-10"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/78.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">ليلى محمد</h6><p class="text-muted small mb-3">18 مشترك</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button><button class="btn btn-light btn-action text-danger" onclick="removeFriend('friend-10')"><i class="fas fa-user-times"></i></button></div></div></div></div>
+                             <!-- عناصر إضافية لتطويل الصفحة -->
+                            <div class="col friend-item" id="friend-11"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/54.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">خالد عمر</h6><p class="text-muted small mb-3">6 مشتركين</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button></div></div></div></div>
+                            <div class="col friend-item" id="friend-12"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/55.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">إيمان الدسوقي</h6><p class="text-muted small mb-3">1 مشترك</p><div class="d-flex gap-2"><button class="btn btn-primary btn-action flex-grow-1">مراسلة</button></div></div></div></div>
+                        </div>
+                    </div>
+
+                    <!-- ✅ تبويب: طلبات الصداقة (تفاعلية الديناميكية) ✅ -->
+                    <div class="tab-pane fade" id="requests" role="tabpanel">
+                        <h4 class="fw-bold mb-4 px-2">طلبات الصداقة (5)</h4>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                            <!-- طلب 1 -->
+                            <div class="col request-item" id="request-1">
+                                <div class="card friend-card shadow-sm h-100 border border-primary-subtle">
+                                    <img src="https://randomuser.me/api/portraits/men/71.jpg" class="card-img-top friend-img-top" alt="">
+                                    <div class="card-body p-3">
+                                        <h6 class="fw-bold mb-1">مصطفى محمود</h6>
+                                        <p class="text-muted small mb-3">أرسل الطلب منذ يومين</p>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary btn-action" onclick="acceptRequest('request-1')">تأكيد</button>
+                                            <button class="btn btn-light btn-action" onclick="deleteRequest('request-1')">حذف</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- طلب 2 -->
+                            <div class="col request-item" id="request-2">
+                                <div class="card friend-card shadow-sm h-100 border border-primary-subtle">
+                                    <img src="https://randomuser.me/api/portraits/women/71.jpg" class="card-img-top friend-img-top" alt="">
+                                    <div class="card-body p-3">
+                                        <h6 class="fw-bold mb-1">هاجر حسين</h6>
+                                        <p class="text-muted small mb-3">أرسلت الطلب منذ ساعة</p>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary btn-action" onclick="acceptRequest('request-2')">تأكيد</button>
+                                            <button class="btn btn-light btn-action" onclick="deleteRequest('request-2')">حذف</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ✅ تبويب: الاقتراحات (تفاعلية الديناميكية) ✅ -->
+                    <div class="tab-pane fade" id="suggestions" role="tabpanel">
+                        <h4 class="fw-bold mb-4 px-2">أشخاص قد تعرفهم (كبيرة لتحت)</h4>
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
+                            <!-- اقتراح 1 -->
+                            <div class="col suggestion-item" id="suggest-1">
+                                <div class="card friend-card shadow-sm h-100">
+                                    <img src="https://randomuser.me/api/portraits/men/81.jpg" class="card-img-top friend-img-top" alt="">
+                                    <div class="card-body p-3">
+                                        <h6 class="fw-bold mb-1">علي أمين</h6>
+                                        <p class="text-muted small mb-3">صديق مشترك واحد</p>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary btn-action btn-add" onclick="addFriend('suggest-1')"><i class="fas fa-user-plus me-1"></i>إضافة صديق</button>
+                                            <button class="btn btn-light btn-action btn-remove" onclick="ignoreSuggestion('suggest-1')">إزالة</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- اقتراح 2 -->
+                            <div class="col suggestion-item" id="suggest-2">
+                                <div class="card friend-card shadow-sm h-100">
+                                    <img src="https://randomuser.me/api/portraits/women/81.jpg" class="card-img-top friend-img-top" alt="">
+                                    <div class="card-body p-3">
+                                        <h6 class="fw-bold mb-1">روقية حامد</h6>
+                                        <p class="text-muted small mb-3">3 أصدقاء مشتركين</p>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn btn-primary btn-action btn-add" onclick="addFriend('suggest-2')"><i class="fas fa-user-plus me-1"></i>إضافة صديق</button>
+                                            <button class="btn btn-light btn-action btn-remove" onclick="ignoreSuggestion('suggest-2')">إزالة</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- كرر الاقتراحات لتطويل الصفحة -->
+                            <div class="col suggestion-item" id="suggest-3"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/82.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">يوسف ألكسندر</h6><p class="text-muted small mb-3">5 مشتركين</p><div class="d-grid gap-2"><button class="btn btn-primary btn-action btn-add" onclick="addFriend('suggest-3')">إضافة صديق</button></div></div></div></div>
+                            <div class="col suggestion-item" id="suggest-4"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/82.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">تسنيم حامد</h6><p class="text-muted small mb-3">جديد على فيسبوك</p><div class="d-grid gap-2"><button class="btn btn-primary btn-action btn-add" onclick="addFriend('suggest-4')">إضافة صديق</button></div></div></div></div>
+                            <div class="col suggestion-item" id="suggest-5"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/men/83.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">حسن سيباستيان</h6><p class="text-muted small mb-3">صديق مشترك</p><div class="d-grid gap-2"><button class="btn btn-primary btn-action btn-add" onclick="addFriend('suggest-5')">إضافة صديق</button></div></div></div></div>
+                            <div class="col suggestion-item" id="suggest-6"><div class="card friend-card shadow-sm h-100"><img src="https://randomuser.me/api/portraits/women/83.jpg" class="card-img-top friend-img-top" alt=""><div class="card-body p-3"><h6 class="fw-bold mb-1">إبراهيم ثيودور</h6><p class="text-muted small mb-3">2 مشتركين</p><div class="d-grid gap-2"><button class="btn btn-primary btn-action btn-add" onclick="addFriend('suggest-6')">إضافة صديق</button></div></div></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ✅ 3. Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ✅ 4. الديناميكية (JavaScript) ✅ -->
+    <script>
+        // دالة ديناميكية لحذف صديق
+        function removeFriend(friendId) {
+            if(confirm("هل أنت متأكد من حذف هذا الصديق؟")) {
+                const friendItem = document.getElementById(friendId);
+                friendItem.style.transition = "all 0.5s";
+                friendItem.style.opacity = "0";
+                friendItem.style.transform = "scale(0.8)";
+                setTimeout(() => {
+                    friendItem.remove();
+                    // يمكنك هنا إضافة كود لتحديث العدد الإجمالي للأصدقاء
+                }, 500);
+            }
+        }
+
+        // دالة ديناميكية لقبول طلب صداقة
+        function acceptRequest(requestId) {
+            const requestItem = document.getElementById(requestId);
+            const cardBody = requestItem.querySelector('.card-body');
+            const name = cardBody.querySelector('h6').innerText;
+            
+            // تغيير المحتوى بشكل ديناميكي
+            cardBody.innerHTML = `
+                <h6 class="fw-bold mb-1 text-success">${name}</h6>
+                <p class="text-muted small mb-3">تم قبول الطلب، أصبحتم أصدقاء الآن!</p>
+                <div class="d-grid">
+                    <button class="btn btn-light btn-action text-primary" disabled><i class="fas fa-check me-1"></i>تم التأكيد</button>
+                </div>
+            `;
+            requestItem.querySelector('.card').classList.remove('border-primary-subtle');
+            requestItem.querySelector('.card').classList.add('border-success-subtle');
+        }
+
+        // دالة ديناميكية لحذف طلب صداقة
+        function deleteRequest(requestId) {
+            const requestItem = document.getElementById(requestId);
+            requestItem.style.transition = "all 0.4s";
+            requestItem.style.opacity = "0";
+            setTimeout(() => requestItem.remove(), 400);
+        }
+
+        // دالة ديناميكية لإضافة صديق من الاقتراحات
+        function addFriend(suggestId) {
+            const suggestItem = document.getElementById(suggestId);
+            const btnAdd = suggestItem.querySelector('.btn-add');
+            const btnRemove = suggestItem.querySelector('.btn-remove');
+
+            btnAdd.innerHTML = `<i class="fas fa-check me-1"></i>تم إرسال الطلب`;
+            btnAdd.classList.remove('btn-primary');
+            btnAdd.classList.add('btn-light', 'text-success');
+            btnAdd.disabled = true;
+            if(btnRemove) btnRemove.style.display = 'none'; // إخفاء زر إزالة
+        }
+
+        // دالة ديناميكية لتجاهل اقتراح
+        function ignoreSuggestion(suggestId) {
+            const suggestItem = document.getElementById(suggestId);
+            suggestItem.style.transition = "all 0.4s";
+            suggestItem.style.opacity = "0";
+            setTimeout(() => suggestItem.remove(), 400);
+        }
+    </script>
+</body>
+</html>
