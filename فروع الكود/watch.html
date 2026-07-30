@@ -46,37 +46,84 @@
         /* زر اللايك المزرق */
         .btn-like.liked { color: #1877f2 !important; }
         .btn-like.liked i { font-weight: 900; } /* الأيقونة المملوءة (Solid) */
+         @media (max-width: 991.98px) {
+        .fb-mobile-grid {
+            display: flex !important;
+            flex-wrap: wrap !important;
+            width: 100% !important;
+            padding: 10px 0;
+        }
+        .fb-mobile-grid .nav-item {
+            width: 50% !important; /* تقسيم العناصر على عمودين */
+            height: auto !important;
+            padding: 4px;
+        }
+        .fb-mobile-grid .nav-link-main {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 10px !important;
+            background-color: #f0f2f5;
+            border-radius: 10px;
+            text-align: center;
+        }
+    }
     </style>
 </head>
 <body>
-
-    <!-- ✅ 1. Navigation Bar (لم يتغير) -->
-    <nav class="navbar navbar-expand-lg fb-navbar p-0 border-bottom">
-        <div class="container-fluid px-3 h-100">
-            <div class="d-flex align-items-center" style="width: 280px;">
-                <a class="navbar-brand text-primary fw-bold fs-1" href="index.html" style="letter-spacing: -2px;">facebook</a>
-                <div class="position-relative ms-2 d-none d-md-block">
-                    <i class="fas fa-search position-absolute text-muted" style="right: 12px; top: 50%; transform: translateY(-50%); z-index: 5;"></i>
-                    <input type="text" class="form-control search-input" placeholder="بحث في Watch" style="padding-right: 35px; width: 200px; height: 36px;">
-                </div>
-            </div>
-            <div class="collapse navbar-collapse justify-content-center h-100">
-                <ul class="navbar-nav gap-1 h-100 d-flex flex-row">
-                    <li class="nav-item h-100"><a class="nav-link nav-link-main" href="../index.html"><i class="fas fa-home"></i><span class="nav-link-text">الرئيسية</span></a></li>
-                    <li class="nav-item h-100"><a class="nav-link nav-link-main" href="./الاصدقاء.html"><i class="fas fa-user-friends"></i><span class="nav-link-text">الأصدقاء</span></a></li>
-                    <li class="nav-item h-100"><a class="nav-link nav-link-main active" href="watch.html"><i class="fas fa-tv"></i><span class="nav-link-text">Watch</span></a></li>
-                    <li class="nav-item h-100"><a class="nav-link nav-link-main" href="./التسوق.html"><i class="fas fa-store"></i><span class="nav-link-text">التسوق</span></a></li>
-                    <li class="nav-item h-100"><a class="nav-link nav-link-main" href="./المزيد.html"><i class="fas fa-users"></i><span class="nav-link-text">المجموعات</span></a></li>
-                </ul>
-            </div>
-            <div class="d-flex align-items-center justify-content-end gap-2" style="width: 280px;">
-                <button class="btn btn-light rounded-circle bg-gray-200"><i class="fab fa-facebook-messenger"></i></button>
-                <button class="btn btn-light rounded-circle bg-gray-200 position-relative"><i class="fas fa-bell"></i><span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="fs-size: 0.6rem;">9+</span></button>
-                <a href="#" class="ms-1"><img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" class="rounded-circle border" width="38" height="38"></a>
+<!-- ✅ 1. Navigation Bar (صفحة Watch) -->
+<nav class="navbar navbar-expand-lg fb-navbar p-0 border-bottom">
+    <div class="container-fluid px-3 h-100">
+        
+        <!-- Right Logo & Search -->
+        <div class="d-flex align-items-center justify-content-between" style="min-width: 250px;">
+            <a class="navbar-brand text-primary fw-bold fs-1" href="index.html" style="letter-spacing: -2px;">facebook</a>
+            <div class="position-relative ms-2 d-none d-md-block">
+                <i class="fas fa-search position-absolute text-muted" style="right: 12px; top: 50%; transform: translateY(-50%); z-index: 5;"></i>
+                <input type="text" class="form-control search-input" placeholder="بحث في Watch" style="padding-right: 35px; width: 200px; height: 36px;">
             </div>
         </div>
-    </nav>
 
+        <!-- زرار الـ Button (يظهر عند تصغير الشاشة) -->
+        <button class="navbar-toggler border-0 shadow-none p-2 ms-auto me-2" type="button" data-bs-toggle="collapse" data-bs-target="#fbWatchNavbar" aria-controls="fbWatchNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Center Icons (Active على Watch + تقسيم 2 Column في الموبايل) -->
+        <div class="collapse navbar-collapse justify-content-center h-100" id="fbWatchNavbar">
+            <ul class="navbar-nav gap-1 h-100 d-flex flex-row fb-mobile-grid">
+                <li class="nav-item h-100">
+                    <a class="nav-link nav-link-main" href="../index.html">
+                        <i class="fas fa-home"></i><span class="nav-link-text ms-1">الرئيسية</span>
+                    </a>
+                </li>
+                <li class="nav-item h-100">
+                    <a class="nav-link nav-link-main" href="./الاصدقاء.html">
+                        <i class="fas fa-user-friends"></i><span class="nav-link-text ms-1">الأصدقاء</span>
+                    </a>
+                </li>
+                <li class="nav-item h-100">
+                    <a class="nav-link nav-link-main active" href="watch.html">
+                        <i class="fas fa-tv"></i><span class="nav-link-text ms-1">Watch</span>
+                    </a>
+                </li>
+                <li class="nav-item h-100">
+                    <a class="nav-link nav-link-main" href="./التسوق.html">
+                        <i class="fas fa-store"></i><span class="nav-link-text ms-1">التسوق</span>
+                    </a>
+                </li>
+                <li class="nav-item h-100">
+                    <a class="nav-link nav-link-main" href="./المزيد.html">
+                        <i class="fas fa-users"></i><span class="nav-link-text ms-1">المجموعات</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
+</nav>
     <!-- ✅ 2. Main Content Section ✅ -->
     <div class="container-fluid feed-area pt-4">
         <div class="row px-lg-5">
@@ -279,5 +326,6 @@
             // shuffledPosts.forEach(post => feedContainer.appendChild(post));
         });
     </script>
+       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
